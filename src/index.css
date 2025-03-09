@@ -1,0 +1,408 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+body,
+nav {
+    background-color: #F9FAFA;
+}
+
+.page {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+body,
+.page {
+    height: 100vh;
+    margin: 0;
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem; /* Reduced padding for smaller screens */
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.logo-btn {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.logo-btn:disabled {
+    cursor: not-allowed;
+}
+
+.feedback-btn {
+    padding: 0.5rem 1rem; /* Adjusted for smaller screens */
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #186F44;
+    color: #FBFEFC;
+    font-size: 1rem; /* Reduced font size */
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.default-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem; /* Slightly reduced gap */
+    width: 100%;
+}
+
+.conversation-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    width: 90%; /* More flexible width */
+    text-align: center;
+    font-size: 1.5rem; /* Default for mobile */
+}
+
+.form-container,
+.form-container_convo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* Reduced gap */
+    position: sticky; /* Use sticky for both for consistency */
+    bottom: 0;
+    z-index: 2;
+    background: rgba(249, 250, 250, 0.9);
+    padding: 0.75rem 0; /* Reduced padding */
+    box-sizing: border-box;
+}
+
+.form-container_convo {
+    position: fixed;
+}
+
+form {
+    width: 90%; /* More flexible width */
+    max-width: 800px; /* Cap width for larger screens */
+    padding: 0 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0px 1px 30px 5px rgba(8, 5, 13, 0.06); /* Reduced shadow for smaller screens */
+    border: 2px solid transparent;
+}
+
+form:focus-within {
+    border: 2px solid #186F44;
+}
+
+input {
+    width: 85%;
+    height: 100%;
+    padding: 2rem 0.75rem; /* Reduced padding */
+    font-size: 1rem; /* Smaller font size */
+    font-weight: 400;
+    background-color: transparent; /* Fixed invalid 'none' */
+    border: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+.round-btn {
+    width: 40px; /* Slightly smaller */
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disabled {
+    background-color: #7DA18F;
+}
+
+.active {
+    background-color: #186F44;
+}
+
+.pill-btn_section {
+    width: 95%; /* More flexible */
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem; /* Reduced gap */
+    flex-wrap: wrap;
+}
+
+.pill-btn {
+    border-radius: 20px;
+    padding: 12px 12px; /* Adjusted padding */
+    border: 1px solid #DAE2DE;
+    background-color: #fff;
+    font-size: 0.875rem; /* Smaller font */
+    color: #53635B;
+    display: flex;
+    white-space: nowrap;
+
+}
+
+.messages {
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem 1.5rem; /* Reduced padding */
+    margin-bottom: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 1.5rem; /* Reduced gap */
+}
+
+.message-list {
+    width: 90%; /* More flexible */
+    max-width: 800px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 2rem; /* Reduced gap */
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+}
+
+.messages::-webkit-scrollbar {
+    width: 6px; /* Thinner scrollbar */
+}
+
+.messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #186F44;
+    border-radius: 3px;
+}
+
+.user-msg_container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.message.user {
+    max-width: 85%; /* More flexible width */
+    padding: 0.75rem;
+    background-color: #E0F4EA;
+    color: #163D2A;
+    border-radius: 0.75rem;
+}
+
+.agent-msg_container {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.message.agent {
+    width: 85%; /* More flexible */
+    max-width: 85%;
+    padding: 0 0.75rem;
+    display: flex;
+    justify-content: start;
+    color: #0D2017;
+}
+
+.message.user,
+.message.agent{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 1rem;
+    font-size: 1.125rem;
+}
+
+.agent-msg_container .message.agent.loading {
+    color: #53635B;
+    font-style: italic;
+}
+
+.pill-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 400px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.modal-content h2 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.modal-content p {
+    margin: 0 0 15px;
+    color: #53635B;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #53635B;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* Media Queries for Larger Screens */
+@media (min-width: 768px) {
+    nav {
+        padding: 2rem 2.5rem; /* Restore original padding */
+    }
+
+    .feedback-btn {
+        padding: 0.75rem;
+        font-size: 1.125rem; /* Restore original size */
+    }
+
+    h1 {
+        font-size: 2rem; /* Larger for tablets/desktops */
+    }
+
+    form {
+        width: 60%; /* Original width */
+    }
+
+    input {
+        padding: 2rem 1rem; /* Slightly larger padding */
+        font-size: 1.25rem; /* Original size */
+    }
+
+    .round-btn {
+        width: 48px; /* Original size */
+        height: 48px;
+    }
+
+    .pill-btn_section {
+        width: 80%; /* Original width */
+    }
+
+    .pill-btn {
+        padding: 12px;
+        font-size: 1rem; /* Original size */
+    }
+
+    .messages {
+        padding: 1rem 2.5rem; /* Original padding */
+        margin-bottom: 200px;
+        gap: 2.5rem; /* Original gap */
+    }
+
+    .message-list {
+        width: 60%; /* Original width */
+    }
+
+    .message.user,
+    .message.agent {
+        padding: 1rem; /* Original padding */
+    }
+}
+
+@media (min-width: 1024px) {
+    h1 {
+        font-size: 2.5rem; /* Even larger for desktops */
+    }
+
+    form {
+        width: 60%;
+    }
+
+    input {
+        padding: 3rem 1rem; /* Original padding */
+    }
+}
