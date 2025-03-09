@@ -105,7 +105,7 @@ export default function PageContent({ userId, messages, setMessages, onReset }) 
                 {messages.length === 0 ? (
                     <DefaultPage onSendMessage={handleSendMessage} loading={loading}/>
                 ) : (
-                    <Conversation messages={messages} userId={userId} loading={loading}/>
+                    <Conversation messages={messages} userId={userId} loading={loading} onSendMessage={handleSendMessage}/>
                 )}
             </div>
         </main>

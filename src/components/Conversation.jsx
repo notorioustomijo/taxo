@@ -3,89 +3,23 @@ import { useState, useEffect, useRef } from 'react';
 import arrowUp from '../assets/arrow-up.svg';
 import ReactMarkdown from 'react-markdown';
 
-export default function Conversation({ messages: initialMessages, userId, loading }) {
+export default function Conversation({ messages: initialMessages, userId, loading, onSendMessage }) {
+    console.log('Loading Prop in Converation:', loading);
     const [query, setQuery] = useState('');
-    const [messages, setMessages] = useState(initialMessages || []);
     const lastMessageRef = useRef(null);
-
-    useEffect(() => {
-        setMessages(initialMessages || []);
-    }, [initialMessages]);
 
     useEffect(() => {
         if (lastMessageRef.current) {
             lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
-    }, [messages]);
+    }, [initialMessages]);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted with query:', query);
         if (!query || !query.trim()) return;
 
-        const userMessage = {
-            text: query,
-            sender: 'user',
-            timestamp: new Date()
-        };
-
-        setMessages(prevMessages => [
-            ...prevMessages,
-            userMessage
-        ]);
+        onSendMessage(query);
         setQuery('');
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-User-ID': userId,
-                },
-                body: JSON.stringify({ message: query }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (data.success && data.reply) {
-                const agentMessage = {
-                    text: data.reply,
-                    sender: 'agent',
-                    timestamp: new Date(),
-                };
-
-                setMessages(prevMessages => [
-                    ...prevMessages,
-                    agentMessage,
-                ]);
-            } else {
-                console.error('Backend error:', data.error || 'Unknown error');
-                setMessages(prevMessages => [
-                    ...prevMessages,
-                    {
-                        text: 'Error: Could not get a response from the server.',
-                        sender: 'agent',
-                        timestamp: new Date()
-                    }
-                ]);
-            }
-        } catch (error) {
-            console.error('Error sending message:', error);
-            setMessages(prevMessages => [
-                ...prevMessages,
-                {
-                    text: 'Something went wrong. Please refresh and try again.',
-                    sender: 'agent',
-                    timestamp: new Date()
-                }
-            ])
-        } finally {
-            setQuery('');
-        }
     };
 
     const buttonClass = query.trim() ? 'active' : 'disabled';
@@ -94,13 +28,13 @@ export default function Conversation({ messages: initialMessages, userId, loadin
         <div className="conversation-page">
             <div className="messages">
                 <div className="message-list">
-                    {messages.map((msg, index) => {
+                    {initialMessages.map((msg, index) => {
                         const paragraphs = msg.text.split('\n').filter(p => p.trim());
                         return (
                             <div className={`${msg.sender}-msg_container`} key={index}>
                                 <div
                                     className={`message ${msg.sender}`}
-                                    ref={index === messages.length - 1 ? lastMessageRef : null}
+                                    ref={index === initialMessages.length - 1 ? lastMessageRef : null}
                                 >
                                     {paragraphs.map((para, paraIndex) => (
                                         <ReactMarkdown key={paraIndex}>{para}</ReactMarkdown>
@@ -109,15 +43,13 @@ export default function Conversation({ messages: initialMessages, userId, loadin
                             </div>
                         );
                     })}
-                    {
-                        loading && (
-                            <div className="agent-msg_container">
-                                <div className="message agent loading">
-                                    <p>Taxo is thinking...</p>
-                                </div>
+                    {loading && (
+                        <div className="agent-msg_container">
+                            <div className="message agent loading">
+                                <p>Taxo is thinking...</p>
                             </div>
-                        )
-                    }
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="form-container_convo">
@@ -133,6 +65,7 @@ export default function Conversation({ messages: initialMessages, userId, loadin
                     <button
                         className={`round-btn ${buttonClass}`}
                         type="submit"
+                        disabled={loading} // Disable button while loading
                     >
                         <img src={arrowUp} alt="Submit" />
                     </button>
